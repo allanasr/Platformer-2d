@@ -8,24 +8,12 @@ public class Player : MonoBehaviour
     public Rigidbody2D myRigidBody2D;
     public HealthBase healthBase;
 
-    public Vector2 friction = new Vector2(-0.5f, 0);
+    public SOPlayer soPlayer;
 
-    [Header("Speed setup")]
-    public float speed;
-    public float jumpForce = 2;
-    public float runSpeed;
 
     private float _currentSpeed;
-    [Header("Animation setup")]
-    public float jumpScaleY = 1.5f;
-    public float jumpScaleX = 0.5f;
-    public float animationDuration = 0.5f;
-    public Ease ease;
 
-    [Header("Player Animation")]
-    public Animator animator;
-    public string boolRun = "Run";
-    public string boolDeath = "Death";
+    private Animator currentPlayerAnimator;
 
 
     private void Awake()
@@ -34,6 +22,8 @@ public class Player : MonoBehaviour
         {
             healthBase.onKill += OnPlayerKill;
         }
+
+        currentPlayerAnimator = Instantiate(soPlayer.playerAnimator, transform);
     }
     void Update()
     {
@@ -45,7 +35,7 @@ public class Player : MonoBehaviour
     {
         healthBase.onKill -= OnPlayerKill;
 
-        animator.SetTrigger(boolDeath);
+        currentPlayerAnimator.SetTrigger(soPlayer.boolDeath);
         Destroy(gameObject, 1f);
     }
     private void HandleMovement()
@@ -53,18 +43,18 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            _currentSpeed = runSpeed;
-            animator.speed = 2;
+            _currentSpeed = soPlayer.runSpeed;
+            currentPlayerAnimator.speed = 2;
         }
         else
         {
-            _currentSpeed = speed;
-            animator.speed = 1;
+            _currentSpeed = soPlayer.speed;
+            currentPlayerAnimator.speed = 1;
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            animator.SetBool(boolRun, true);
+            currentPlayerAnimator.SetBool(soPlayer.boolRun, true);
             myRigidBody2D.velocity = new Vector2(-_currentSpeed, myRigidBody2D.velocity.y);
             if (myRigidBody2D.transform.localScale.x != -1)
             {
@@ -73,7 +63,7 @@ public class Player : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            animator.SetBool(boolRun, true);
+            currentPlayerAnimator.SetBool(soPlayer.boolRun, true);
             myRigidBody2D.velocity = new Vector2(_currentSpeed, myRigidBody2D.velocity.y);
             if (myRigidBody2D.transform.localScale.x != 1)
             {
@@ -82,17 +72,17 @@ public class Player : MonoBehaviour
         }
         else
         {
-            animator.SetBool(boolRun, false);
+            currentPlayerAnimator.SetBool(soPlayer.boolRun, false);
         }
 
         if (myRigidBody2D.velocity.x > 0)
         {
-            myRigidBody2D.velocity -= friction;
+            myRigidBody2D.velocity -= soPlayer.friction;
         }
 
         else if (myRigidBody2D.velocity.x < 0)
         {
-            myRigidBody2D.velocity += friction;
+            myRigidBody2D.velocity += soPlayer.friction;
         }
 
     }
@@ -101,7 +91,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            myRigidBody2D.velocity = Vector2.up * jumpForce;
+            myRigidBody2D.velocity = Vector2.up * soPlayer.jumpForce;
             myRigidBody2D.transform.localScale = Vector2.one;
 
             DOTween.Kill(myRigidBody2D.transform);
@@ -112,8 +102,8 @@ public class Player : MonoBehaviour
 
     private void HandleScaleJump()
     {
-        myRigidBody2D.transform.DOScaleY(jumpScaleY, animationDuration).SetLoops(2, LoopType.Yoyo).SetEase(ease);
-        myRigidBody2D.transform.DOScaleX(jumpScaleX, animationDuration).SetLoops(2, LoopType.Yoyo).SetEase(ease);
+        myRigidBody2D.transform.DOScaleY(soPlayer.jumpScaleY, soPlayer.animationDuration).SetLoops(2, LoopType.Yoyo).SetEase(soPlayer.ease);
+        myRigidBody2D.transform.DOScaleX(soPlayer.jumpScaleX, soPlayer.animationDuration).SetLoops(2, LoopType.Yoyo).SetEase(soPlayer.ease);
     }
 
     public void DestroyMe()

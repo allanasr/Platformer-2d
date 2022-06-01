@@ -12,6 +12,11 @@ public class GunBase : MonoBehaviour
     public Transform positionToShoot;
 
     public  Transform sideReference;
+
+    private void Start()
+    {
+        sideReference = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.LeftControl) && Time.time > nextShot)
