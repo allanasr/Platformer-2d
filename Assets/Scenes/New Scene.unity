@@ -550,11 +550,6 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 4546307769011690981, guid: 00afc9fb4087652419d090da0b825d97, type: 3}
   m_PrefabInstance: {fileID: 794019100}
   m_PrefabAsset: {fileID: 0}
---- !u!212 &178838513 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 3692826824174250366, guid: 00afc9fb4087652419d090da0b825d97, type: 3}
-  m_PrefabInstance: {fileID: 794019100}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &187648594
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4287,7 +4282,6 @@ MonoBehaviour:
   - {fileID: 547327274}
   - {fileID: 1445723039}
   - {fileID: 1370325163}
-  - {fileID: 178838513}
   - {fileID: 2020158858}
   - {fileID: 1686789246}
   - {fileID: 1188134290}
