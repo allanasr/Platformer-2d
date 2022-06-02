@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollectableCoin : CollectableBase
+public class CollectablePurpleCoin : CollectableBase
 {
 
     protected override void OnCollect()
     {
         base.OnCollect();
-        CollectableManager.Instance.AddCoins();
+        CollectableManager.Instance.AddPurpleCoins();
 
     }
 }

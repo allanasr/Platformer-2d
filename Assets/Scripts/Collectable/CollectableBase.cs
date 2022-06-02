@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class CollectableBase : MonoBehaviour
 {
+
+    public ParticleSystem particle;
+
+
+    private void Awake()
+    {
+        if(particle)
+        {
+            particle.transform.SetParent(null);
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.transform.CompareTag("Player"))
@@ -18,6 +29,6 @@ public class CollectableBase : MonoBehaviour
     }
     protected virtual void OnCollect()
     {
-
+        particle.Play();
     }
 }

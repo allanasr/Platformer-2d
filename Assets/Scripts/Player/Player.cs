@@ -16,6 +16,12 @@ public class Player : MonoBehaviour
     private Animator currentPlayerAnimator;
 
 
+    [Header("Jump Collider Setup")]
+
+    public Collider2D collider2D;
+    public float distToGround;
+    public float spaceToGround;
+
     private void Awake()
     {
         if (healthBase)
@@ -24,9 +30,22 @@ public class Player : MonoBehaviour
         }
 
         currentPlayerAnimator = Instantiate(soPlayer.playerAnimator, transform);
+
+        if(collider2D)
+        {
+            distToGround = collider2D.bounds.extents.y;
+        }
+    }
+
+    private bool isGrounded()
+    {
+        Debug.DrawRay(transform.position, Vector2.down);
+        return Physics2D.Raycast(transform.position, Vector2.down, distToGround - spaceToGround);
+        
     }
     void Update()
     {
+        isGrounded();
         HandleJump();
         HandleMovement();
     }
@@ -87,9 +106,11 @@ public class Player : MonoBehaviour
 
     }
 
+    public ParticleSystem jumpVfx;
+
     private void HandleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded())
         {
             myRigidBody2D.velocity = Vector2.up * soPlayer.jumpForce;
             myRigidBody2D.transform.localScale = Vector2.one;
@@ -97,6 +118,11 @@ public class Player : MonoBehaviour
             DOTween.Kill(myRigidBody2D.transform);
 
             HandleScaleJump();
+
+            if(jumpVfx)
+            {
+                jumpVfx.Play();
+            }
         }
     }
 
