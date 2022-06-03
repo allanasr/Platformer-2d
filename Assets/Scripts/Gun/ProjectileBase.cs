@@ -20,7 +20,7 @@ public class ProjectileBase : MonoBehaviour
         transform.Translate(direction * Time.deltaTime * side);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         var enemy = collision.transform.GetComponent<EnemyBase>();
 

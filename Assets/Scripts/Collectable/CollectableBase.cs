@@ -7,7 +7,9 @@ public class CollectableBase : MonoBehaviour
 
     public ParticleSystem particle;
 
+    [Header("Audio")]
 
+    public AudioSource audioSource;
     private void Awake()
     {
         if(particle)
@@ -30,5 +32,6 @@ public class CollectableBase : MonoBehaviour
     protected virtual void OnCollect()
     {
         particle.Play();
+        audioSource.Play();
     }
 }

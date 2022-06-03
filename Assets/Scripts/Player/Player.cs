@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
 
     private Animator currentPlayerAnimator;
 
+    public AudioSource jumpSFX;
+
 
     [Header("Jump Collider Setup")]
 
@@ -118,6 +120,7 @@ public class Player : MonoBehaviour
             DOTween.Kill(myRigidBody2D.transform);
 
             HandleScaleJump();
+            jumpSFX.Play();
 
             if(jumpVfx)
             {
